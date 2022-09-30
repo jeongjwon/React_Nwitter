@@ -9,6 +9,7 @@ function Home({userObj}) {
     
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
+    const [attachment, setAttachment] = useState("");
     //snapshot -> listener
     // const getNweets = async () => {
     //     const q = query(collection(dbService, "nweets"));
@@ -57,7 +58,27 @@ function Home({userObj}) {
         setNweet(value);
 
     }
-    // console.log(nweets);
+    
+    const onFileChange = (event) => {
+        const { target: { files }, 
+        } = event;
+        const theFile = files[0];
+
+        //fileReader API 파일 이름을 읽음
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {currentTarget : {result}, } = finishedEvent; //* */
+            setAttachment(result);
+        }//파일 로딩이 끝나거나 읽는 것이 끝나면 finishedEvent를 가진다
+
+        reader.readAsDataURL(theFile); //그러고 thrFile을 문자 데이터 형테로 가져온다
+        
+        
+    }
+
+    const onClearAttachment= () => {
+        setAttachment(null);
+    }
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -67,9 +88,14 @@ function Home({userObj}) {
                     type="text"
                     placeholder="What's on your mind?"
                     maxLength={120} />
-                <input type="submit" value="Nweet"
-                />
-                
+                <input type="file" accept="image/*" onChange={onFileChange} />
+                <input type="submit" value="Nweet"/>
+                {attachment && 
+                    <div>
+                        <img src={attachment} width="50px" height="50px" />
+                        <button onClick={onClearAttachment}>Clear</button>
+                    </div>
+                }
             </form>
             <div>
                 {nweets.map((nweet) => (
