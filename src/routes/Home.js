@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { addDoc,collection, query ,orderBy, onSnapshot} from "@firebase/firestore";
 import { dbService } from "fbase";
+import { ref, uploadString , getDownloadURL} from "@firebase/storage";
 import Nweet from "../components/Nweet";
+import { storageService } from "../fbase";
 
-
+import { v4 as uuidv4 } from "uuid"; 
+//npm i uuid
 function Home({userObj}) {
 
     
@@ -39,19 +42,38 @@ function Home({userObj}) {
    
     const onSubmit = async (e) => {
         e.preventDefault();
-      
+        
         try {
-            const docRef = await addDoc(collection(dbService, "nweets"), {
-                text:nweet,
+            let attachmentUrl = ""; 
+            if (attachment != "") {
+                const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+                //file명에 대한 레퍼런스 , uuid는 랜덤이므로 우리가 알지 못한다
+
+                const response = await uploadString(attachmentRef, attachment, "data_url");
+                attachmentUrl = await getDownloadURL(response.ref);
+            }
+            
+            const nweetObj = {
+                //if attachment 가 있다면 attachmentUrl 추가
+                text: nweet,
                 createdAt: Date.now(),
-                creatorId:userObj.uid, //-> 누가 작성했는지 알 수 있음
-            }); 
-            console.log("Document written with ID: ", docRef.id);
+                creatorId: userObj.uid,
+                attachmentUrl
+            };
+            await addDoc(collection(dbService, "nweets"), nweetObj);
+            // const docRef = await addDoc(collection(dbService, "nweets"), {
+            //     text:nweet,
+            //     createdAt: Date.now(),
+            //     creatorId:userObj.uid, //-> 누가 작성했는지 알 수 있음
+            // });
+            // console.log("Document written with ID: ", docRef.id);
+            
             
         } catch (error) {
             console.error("Error adding document: ", error);
         }   
         setNweet("");
+        setAttachment("");
     }
     const onChange = (event) => {
         const { target: { value }, } = event;
