@@ -6,9 +6,10 @@ import { collection, getDoc, getDocs, query, where, orderBy } from "@firebase/fi
 import { getNodeText } from "@testing-library/react";
 import { updateProfile } from "firebase/auth";
 
-function Profile({userObj}) {
+function Profile({userObj, refreshUser}) {
     const navigate = useNavigate();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+    
     const onLogOutClick = () => {
          authService.signOut();
         navigate("/", { replace: true }); //go to home
@@ -19,13 +20,15 @@ function Profile({userObj}) {
         
         setNewDisplayName(value);
     }
+    
     const onSubmit = async (event) => {
         event.preventDefault();
    
         if (userObj.displayName !== newDisplayName) {
             //변경했다면
-           await updateProfile(userObj, { displayName: newDisplayName });
-            // refreshUser();
+        //    await updateProfile(userObj, { displayName: newDisplayName });
+            await updateProfile(authService.currentUser, { displayName: newDisplayName });
+            refreshUser();
         }
        
             
@@ -60,7 +63,7 @@ function Profile({userObj}) {
                     type="text"
                     placeholder="Display name"
                     onChange={onChange}
-                    value={newDisplayName}
+                    value={newDisplayName||""}
                 />
                 <input type="submit" value="Update Profile" />
             </form>
