@@ -5,14 +5,18 @@ import {
     GoogleAuthProvider, 
     signInWithPopup
 } from 'firebase/auth';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+ import {
+   faTwitter,
+   faGoogle,
+   faGithub,
+ } from "@fortawesome/free-brands-svg-icons";
 import AuthForm from 'components/AuthForm';
 
 function Auth() {
   
-    const [newAccount, setNewAccount] = useState(true);
    
-    const toggleAccount = () => setNewAccount((prev) => !prev);
+    
     
     const onSocialClick = async (event) => {
         const {target: {name},
@@ -29,15 +33,15 @@ function Auth() {
         console.log(data);
     };
     return (
-    <div>
+    <div className='authContainer'>
         <AuthForm />
-        <span onClick={toggleAccount}>{newAccount ? "Sign in" : "Create Account"}</span>
-        <div>
-            <button onClick={onSocialClick} name="google">
-                Continue with Google
+       
+        <div className='authBtns'>
+            <button onClick={onSocialClick} name="google" className='authBtn'>
+                Continue with Googlee <FontAwesomeIcon icon={faGoogle} />
             </button>
-            <button onClick={onSocialClick} name="github">
-                Continue with Github
+            <button onClick={onSocialClick} name="github" className='authBtn'>
+                Continue with Github <FontAwesomeIcon icon={faGithub} />
             </button>
         </div>
     </div>
