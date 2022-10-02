@@ -76,7 +76,9 @@ function NweetFactory({ userObj }) {
         setAttachment("");
     }
     return (
+        
         <form onSubmit={onSubmit} className="factoryForm">
+            
             <div className='factoryInput__container'>
                 <input
                     value={nweet}
@@ -89,12 +91,17 @@ function NweetFactory({ userObj }) {
                 
             
             </div>
-              <label htmlFor="attach-file" className="factoryInput__label">
+            
+         
+            <div style={{textAlign:"center"}}>
+                <label htmlFor="attach-file" className="factoryInput__label">
                 <span>Add photos</span>
                 <FontAwesomeIcon icon={faPlus} />
             </label>
+            </div>
+            
           
-
+       
             <input
                 id="attach-file"
                 type="file"
@@ -118,7 +125,9 @@ function NweetFactory({ userObj }) {
                     </div>
                         {/* <button onClick={onClearAttachment} className="factoryForm__clear">Clear</button> */}
                     </div>
-                }
+            }
+            
+            
             </form>
     );
 }
