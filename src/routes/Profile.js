@@ -66,7 +66,7 @@ function Profile({userObj, refreshUser}) {
                     placeholder="Display name"
                     onChange={onChange}
                     autoFocus
-                    value={newDisplayName||""}
+                    value={newDisplayName}
                 />
                     <input
                         type="submit"

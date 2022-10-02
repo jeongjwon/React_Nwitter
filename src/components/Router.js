@@ -6,8 +6,9 @@ import Home from "../routes/Home";
 import Profile from "../routes/Profile";
 import Navigation from "./Navigation";
 
+
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
-    console.log(isLoggedIn);
+    console.log("appRouter");
     return (
         <Router>
             {isLoggedIn && <Navigation userObj={userObj} />}

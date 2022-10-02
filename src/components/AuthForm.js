@@ -4,7 +4,9 @@ import {
     signInWithEmailAndPassword ,
 } from 'firebase/auth';
 import { authService } from '../fbase';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 function AuthForm() {
     
     const[email, setEmail] = useState("");
@@ -48,7 +50,14 @@ function AuthForm() {
      const toggleAccount = () => setNewAccount((prev) => !prev);
     return (
         <>
-            <form onSubmit={onSubmit} className="container">
+            
+            {/* <nav style={
+                { marginBottom: "10px"}
+            }>
+            <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="2x"/>
+           
+            </nav> */}
+              <form onSubmit={onSubmit} className="container">
                 <input
                     name="email"
                     type="email"
